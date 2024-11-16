@@ -4,6 +4,13 @@
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-3xl font-semibold text-gray-800 mb-6">Kas Keluar</h1>
 
+    <!-- Menampilkan Pesan Sukses -->
+    @if (session('success'))
+        <div class="bg-green-500 text-white p-4 rounded-lg mb-6">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <!-- Form untuk input Kas Keluar -->
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <form action="{{ route('kas.keluar.store') }}" method="POST">

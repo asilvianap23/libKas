@@ -10,11 +10,14 @@ class KasController extends Controller
     // Menampilkan halaman kas (masuk dan keluar)
     public function index()
     {
-        $kasMasuk = Kas::where('type', 'masuk')->get();
-        $kasKeluar = Kas::where('type', 'keluar')->get();
-
-        return view('kas.index', compact('kasMasuk', 'kasKeluar'));
+        // Mendapatkan data kas masuk dan kas keluar dengan pagination
+        $kasMasuk = Kas::where('type', 'masuk')->paginate(10); // Menambahkan paginate
+        $kasKeluar = Kas::where('type', 'keluar')->paginate(10); // Menambahkan paginate
+        $kas = Kas::paginate(10); // Data utama yang juga dipaginasi
+    
+        return view('kas.index', compact('kasMasuk', 'kasKeluar', 'kas'));
     }
+    
 
     // Menyimpan transaksi kas
     public function store(Request $request)

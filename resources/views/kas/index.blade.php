@@ -41,8 +41,6 @@
         </form>
     </div>
      
-    
-
     <!-- Tabel Kas Masuk -->
     <div class="bg-white shadow rounded-lg p-6">
         <table class="table-custom">
@@ -80,9 +78,12 @@
                 </tr>
                 @endforeach
             </tbody>
-            
         </table>
+
+        <!-- Pagination Links -->
+        <div class="mt-4">
+            {{ $kasMasuk->links() }}
+        </div>
     </div>
 </div>
-
 @endsection

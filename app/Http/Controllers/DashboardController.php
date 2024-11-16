@@ -11,7 +11,7 @@ class DashboardController extends Controller
     {
         // Ambil total kas masuk yang terverifikasi
         $totalKasMasuk = Kas::where('type', 'masuk')
-            ->where('is_verified', true) // Hanya kas masuk yang terverifikasi
+            // ->where('is_verified', true) // Hanya kas masuk yang terverifikasi
             ->sum('amount'); // Total kas masuk yang terverifikasi
     
         // Ambil total kas keluar
@@ -20,12 +20,12 @@ class DashboardController extends Controller
     
         // Mengambil transaksi hari ini (kas masuk yang terverifikasi)
         $transaksiHariIni = Kas::whereDate('created_at', today())
-            ->where('is_verified', true) // Hanya kas masuk yang terverifikasi
+            ->where('type', 'masuk') // Hanya kas masuk yang terverifikasi
             ->sum('amount');
     
         // Mengambil transaksi bulan ini (kas masuk yang terverifikasi)
         $transaksiBulanIni = Kas::whereMonth('created_at', now()->month)
-            ->where('is_verified', true) // Hanya kas masuk yang terverifikasi
+            ->where('type', 'masuk') // Hanya kas masuk yang terverifikasi
             ->sum('amount');
     
         // Mengambil transaksi kas masuk terbaru yang terverifikasi
