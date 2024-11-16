@@ -33,7 +33,7 @@ class KasController extends Controller
             'user_id' => auth()->id(), // Menyertakan user_id
         ]);
 
-        return redirect()->route('kas.masuk.index')->with('success', 'Transaksi kas berhasil disimpan');
+        return redirect()->route('kas.index')->with('success', 'Transaksi kas berhasil disimpan');
     }
 
     // Menampilkan halaman Kas Keluar
@@ -63,15 +63,26 @@ class KasController extends Controller
         return redirect()->route('kas.keluar.index')->with('success', 'Transaksi Kas Keluar berhasil disimpan');
     }
 
-    // Menampilkan halaman Kas Masuk
-    public function showKasMasuk()
+    public function showKasMasuk(Request $request)
     {
-        $kasMasuk = Kas::where('type', 'masuk')->get();
-        $kas = Kas::with('user')->get(); 
-
-        return view('kas.masuk.index', compact('kasMasuk', 'kas'));
+        $kas = Kas::query()
+            ->when($request->search, function ($query) use ($request) {
+                return $query->where('description', 'like', '%'.$request->search.'%');
+            })
+            ->when($request->status, function ($query) use ($request) {
+                if ($request->status === 'verified') {
+                    return $query->where('is_verified', true);
+                } elseif ($request->status === 'pending') {
+                    return $query->whereNull('is_verified');
+                } elseif ($request->status === 'rejected') {
+                    return $query->whereNotNull('rejected_at');
+                }
+            })
+            ->paginate($request->limit ?: 10);
+    
+        return view('kas.masuk.index', compact('kas'));
     }
-
+     
     // Menyimpan transaksi Kas Masuk
     public function storeKasMasuk(Request $request)
     {
@@ -149,14 +160,13 @@ class KasController extends Controller
         // Redirect ke halaman utama dengan pesan sukses atau gagal
         return redirect()->route('kas.index')->with('status', $request->action == 'verify' ? 'Kas berhasil diverifikasi.' : 'Kas ditolak.');
     }
-    // Fungsi untuk menampilkan laporan kas masuk
     public function laporanKasMasuk(Request $request)
     {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
         $search = $request->search;
+        $limit = $request->limit ?? 10; // Default limit 10 jika tidak ada
     
-        // Query untuk kas masuk dan pencarian berdasarkan deskripsi dan nama pengguna
         $kasMasuk = Kas::where('type', 'masuk')
             ->when($startDate, function ($query, $startDate) {
                 return $query->whereDate('created_at', '>=', $startDate);
@@ -172,16 +182,20 @@ class KasController extends Controller
                           });
                 });
             })
-            ->get();
+            ->paginate($limit); // Gunakan paginate untuk membatasi jumlah data per halaman
     
-        return view('laporan.kasMasuk', compact('kasMasuk', 'startDate', 'endDate', 'search'));
+        return view('laporan.kasMasuk', compact('kasMasuk', 'startDate', 'endDate', 'search', 'limit'));
     }
+    
     public function laporanKasKeluar(Request $request)
     {
+        // Mendapatkan inputan dari request
         $startDate = $request->start_date;
         $endDate = $request->end_date;
         $search = $request->search;
-
+        $limit = $request->limit ?? 10; // Jika tidak ada limit, default ke 10
+    
+        // Query untuk mengambil data kas keluar
         $kasKeluar = Kas::where('type', 'keluar')
             ->when($startDate, function ($query) use ($startDate) {
                 return $query->whereDate('created_at', '>=', $startDate);
@@ -192,9 +206,11 @@ class KasController extends Controller
             ->when($search, function ($query) use ($search) {
                 return $query->where('description', 'like', "%$search%");
             })
-            ->get();
-
-        return view('laporan.kasKeluar', compact('kasKeluar', 'startDate', 'endDate', 'search'));
-    }    
-
+            // Menambahkan pagination dengan limit
+            ->orderBy('created_at', 'desc') // Menambahkan pengurutan berdasarkan tanggal
+            ->paginate($limit);
+    
+        // Mengirim data ke view
+        return view('laporan.kasKeluar', compact('kasKeluar', 'startDate', 'endDate', 'search', 'limit'));
+    }       
 }

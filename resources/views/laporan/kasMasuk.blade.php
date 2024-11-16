@@ -21,9 +21,23 @@
                 <label for="search" class="block text-sm font-medium text-gray-700">Cari</label>
                 <input type="text" name="search" id="search" value="{{ $search }}" placeholder="Cari deskripsi" class="mt-2 px-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
-            <button type="submit" class="button-custom">
-                Filter
-            </button>
+        </div>
+        <button type="submit" class="mt-4 w-full sm:w-auto px-6 py-2 text-blue font-semibold rounded-md shadow-md hover:bg-blue-700 transition duration-200">
+            Filter
+        </button>
+    </form>
+
+    <!-- Filter Limit -->
+    <form method="GET" action="{{ route('laporan.kasMasuk') }}" class="mb-4">
+        <div class="flex items-center space-x-4">
+            <label for="limit" class="text-sm font-medium text-gray-700">Limit</label>
+            <select name="limit" id="limit" class="mt-2 px-4 py-2 border border-gray-300 rounded-md w-24 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" onchange="this.form.submit()">
+                <option value="10" {{ request('limit') == 10 ? 'selected' : '' }}>10</option>
+                <option value="15" {{ request('limit') == 15 ? 'selected' : '' }}>15</option>
+                <option value="30" {{ request('limit') == 30 ? 'selected' : '' }}>30</option>
+                <option value="50" {{ request('limit') == 50 ? 'selected' : '' }}>50</option>
+                <option value="100" {{ request('limit') == 100 ? 'selected' : '' }}>100</option>
+            </select>
         </div>
     </form>
 
@@ -53,6 +67,11 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-4">
+        {{ $kasMasuk->links() }}
     </div>
 </div>
 @endsection
