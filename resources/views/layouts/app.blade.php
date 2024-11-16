@@ -18,34 +18,38 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            
-            <!-- Button to open Sidebar (Only visible when sidebar is closed) -->
-            <button class="openbtn" id="toggleSidebarBtn" onclick="toggleSidebar()"></button>
+    <!-- resources/views/layouts/app.blade.php -->
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        
+        <!-- Button to open Sidebar (Only visible when sidebar is closed) -->
+        <button class="openbtn" id="toggleSidebarBtn" onclick="toggleSidebar()"></button>
 
-            <!-- Sidebar -->
-            @include('layouts.sidebar') <!-- Menyertakan sidebar dari file terpisah -->
+        <!-- Sidebar -->
+        @include('layouts.sidebar') <!-- Menyertakan sidebar dari file terpisah -->
+
+        <!-- Page Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Navigation Bar -->
+            <div class="sticky-nav">
+                @include('layouts.navigation')
+            </div>
+
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white dark:bg-gray-800 shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
 
             <!-- Page Content -->
-            <div class="main-content" id="mainContent">
-                <!-- Navigation Bar -->
-                @include('layouts.navigation')
-
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="bg-white dark:bg-gray-800 shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endif
-
-                <!-- Page Content -->
-                <main>
-                    @yield('content')
-                </main>
-            </div>
+            <main>
+                @yield('content')
+            </main>
         </div>
+    </div>
+
 
         <script>
             function toggleSidebar() {
