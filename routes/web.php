@@ -22,14 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/kas', [KasController::class, 'store'])->name('kas.store');
     
     // Menampilkan halaman Kas Masuk
-    Route::get('/kas/masuk', [KasController::class, 'showKasMasuk'])->name('kas.masuk.index');
+    Route::get('/kas/verifikasi', [KasController::class, 'showKasMasuk'])->name('kas.masuk.index');
     
     // Menyimpan transaksi Kas Masuk
-    Route::post('/kas/masuk', [KasController::class, 'storeKasMasuk'])->name('kas.masuk.store');
+    Route::post('/kas/verifikasi', [KasController::class, 'storeKasMasuk'])->name('kas.masuk.store');
     
     // Verifikasi dan Tolak Kas Masuk
-    Route::patch('/kas/masuk/{id}/verify', [KasController::class, 'verifyKasMasuk'])->name('kas.masuk.verify');
-    Route::patch('/kas/masuk/{id}/reject', [KasController::class, 'rejectKasMasuk'])->name('kas.masuk.reject');
+    Route::patch('/kas/verifikasi/{id}/verify', [KasController::class, 'verifyKasMasuk'])->name('kas.masuk.verify');
+    Route::patch('/kas/verifikasi/{id}/reject', [KasController::class, 'rejectKasMasuk'])->name('kas.masuk.reject');
     
     // Menampilkan halaman Kas Keluar
     Route::get('/kas/keluar', [KasController::class, 'showKasKeluar'])->name('kas.keluar.index');

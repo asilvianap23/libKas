@@ -119,22 +119,25 @@
 </div>
 
 <script>
+    // function confirmAction(event) {
+    //     event.preventDefault();  // Mencegah form disubmit langsung
+
+    //     const action = event.target.name;
+    //     let message = '';
+
+    //     if (action === 'verify') {
+    //         message = 'Apakah Anda yakin ingin memverifikasi kas ini?';
+    //     } else if (action === 'reject') {
+    //         message = 'Apakah Anda yakin ingin menolak kas ini?';
+    //     }
+
+    //     if (confirm(message)) {
+    //         // Jika pengguna menekan 'OK', lanjutkan submit form
+    //         event.target.closest('form').submit();
+    //     }
+    // }
     function confirmAction(event) {
-        event.preventDefault();  // Mencegah form disubmit langsung
-
-        const action = event.target.name;
-        let message = '';
-
-        if (action === 'verify') {
-            message = 'Apakah Anda yakin ingin memverifikasi kas ini?';
-        } else if (action === 'reject') {
-            message = 'Apakah Anda yakin ingin menolak kas ini?';
-        }
-
-        if (confirm(message)) {
-            // Jika pengguna menekan 'OK', lanjutkan submit form
-            event.target.closest('form').submit();
-        }
+        return confirm('Apakah Anda yakin ingin melanjutkan tindakan ini?');
     }
 </script>
 

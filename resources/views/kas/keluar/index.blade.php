@@ -6,11 +6,31 @@
 
     <!-- Menampilkan Pesan Sukses -->
     @if (session('success'))
-        <div class="bg-green-500 text-white p-4 rounded-lg mb-6">
-            {{ session('success') }}
+        <div class="bg-green-600 text-white p-4 rounded-lg shadow-md mb-6 transform scale-95 opacity-50 transition-all duration-500 ease-in-out hover:scale-100 hover:opacity-100">
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{{ session('success') }}</span>
+            </div>
         </div>
     @endif
 
+    <!-- Menampilkan Pesan Error -->
+    @if ($errors->any())
+        <div class="bg-red-600 text-white p-4 rounded-lg shadow-md mb-6 transform scale-95 opacity-50 transition-all duration-500 ease-in-out hover:scale-100 hover:opacity-100">
+            <div class="flex items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <ul class="list-disc ml-4 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     <!-- Form untuk input Kas Keluar -->
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <form action="{{ route('kas.keluar.store') }}" method="POST">

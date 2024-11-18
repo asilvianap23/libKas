@@ -5,33 +5,33 @@
     </div>
     <div class="sidebar-menu mt-8 space-y-4">
         <!-- Menu Dashboard -->
-        <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 text-lg font-semibold text-gray-800 hover:bg-blue-600 rounded-lg transition duration-200 transform hover:scale-105">
+        <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 text-lg font-semibold text-gray-800 hover:bg-blue-600 rounded-lg transition duration-200 transform hover:scale-105" id="menu-dashboard">
             <i class="fas fa-tachometer-alt mr-4 text-lg"></i> Dashboard
         </a>
 
         <!-- Menu Kas -->
         <div class="space-y-2">
             <a href="javascript:void(0)" class="flex items-center px-6 py-3 text-lg font-semibold text-gray-800 hover:bg-blue-600 rounded-lg transition duration-200 transform hover:scale-105 group" onclick="toggleSubMenu('kas-menu')">
-                <i class="fas fa-wallet mr-4 text-lg"></i> Kas 
+                <i class="fas fa-cash-register mr-4 text-lg"></i> Kas 
                 <i class="fas fa-chevron-down ml-auto transform transition" id="kas-menu-icon"></i>
             </a>
             <div id="kas-menu" class="ml-6 space-y-2 pl-6 hidden">
                 <a href="{{ route('kas.index') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
                     <i class="fas fa-plus-circle mr-4 text-md"></i> Tambah Iuran Kas
                 </a>
-                <a href="{{ route('kas.masuk.index') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
-                    <i class="fas fa-arrow-down mr-4 text-md"></i> Kas Masuk
-                </a>
                 <a href="{{ route('kas.keluar.index') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
-                    <i class="fas fa-arrow-up mr-4 text-md"></i> Kas Keluar
+                    <i class="fas fa-minus-circle mr-4 text-md"></i> Catat Kas Keluar
                 </a>
             </div>
         </div>
-
+        <a href="{{ route('kas.masuk.index') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
+            <i class="fas fa-wallet mr-4 text-md"></i> Verifikasi Kas Masuk
+        </a>
+        
         <!-- Menu Laporan -->
         <div class="space-y-2">
             <a href="javascript:void(0)" class="flex items-center px-6 py-3 text-lg font-semibold text-gray-800 hover:bg-blue-600 rounded-lg transition duration-200 transform hover:scale-105 group" onclick="toggleSubMenu('laporan-menu')">
-                <i class="fas fa-file-alt mr-4 text-lg"></i> Laporan
+                <i class="fas fa-chart-line mr-4 text-lg"></i> Laporan
                 <i class="fas fa-chevron-down ml-auto transform transition" id="laporan-menu-icon"></i>
             </a>
             <div id="laporan-menu" class="ml-6 space-y-2 pl-6 hidden">
@@ -39,7 +39,7 @@
                     <i class="fas fa-file-invoice-dollar mr-4 text-md"></i> Laporan Kas Masuk
                 </a>
                 <a href="{{ route('laporan.kasKeluar') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
-                    <i class="fas fa-file-excel mr-4 text-md"></i> Laporan Kas Keluar
+                    <i class="fas fa-file-invoice mr-4 text-md"></i> Laporan Kas Keluar
                 </a>
             </div>
         </div>
@@ -74,11 +74,11 @@
         menuItem.addEventListener('click', function() {
             // Hapus kelas aktif dari semua menu
             document.querySelectorAll('.sidebar a').forEach(function(item) {
-                item.classList.remove('active');
+                item.classList.remove('bg-blue-600', 'text-white');
             });
             
             // Tambahkan kelas aktif pada menu yang dipilih
-            menuItem.classList.add('active');
+            menuItem.classList.add('bg-blue-600', 'text-white');
         });
     });
 </script>
