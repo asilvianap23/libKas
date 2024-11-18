@@ -50,6 +50,7 @@
                     <th class="px-6 py-3 text-left text-sm font-medium">Jumlah</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Deskripsi</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Pengguna</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Bukti</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +60,13 @@
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ number_format($kas->amount, 2) }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ $kas->description }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ $kas->user->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-2 border-b">
+                            @if($kas->photo)
+                                <a href="{{ Storage::url($kas->photo) }}" target="_blank" class="link-view">Lihat Bukti</a>
+                            @else
+                                <span>Belum ada bukti</span>
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>

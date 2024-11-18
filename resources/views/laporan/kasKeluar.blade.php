@@ -50,6 +50,7 @@
                     <th class="px-6 py-3 text-left text-sm font-medium">Jumlah</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Deskripsi</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Pengguna</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Bukti</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,10 +60,31 @@
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ number_format($kas->amount, 2) }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ $kas->description }}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 border-b">{{ $kas->user->name ?? 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 border-b">
+                            @if($kas->bukti)
+                                @php
+                                    $files = json_decode($kas->bukti);
+                                @endphp
+                                <ul>
+                                    @foreach($files as $index => $file)
+                                        <li class="flex items-center space-x-2">
+                                            <!-- Tampilkan tanda hanya jika lebih dari 1 file -->
+                                            @if(count($files) > 1)
+                                                <span class="h-2 w-2 bg-blue-500 rounded-full"></span>
+                                            @endif
+                                            <a href="{{ asset('storage/'.$file) }}" target="_blank" class="text-blue-600 hover:underline">Lihat File {{ $index + 1 }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                Tidak ada bukti
+                            @endif
+                        </td>
+                                                                                                                                                 
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500 border-b">Tidak ada data kas keluar</td>
+                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500 border-b">Tidak ada data kas keluar</td>
                     </tr>
                 @endforelse
             </tbody>

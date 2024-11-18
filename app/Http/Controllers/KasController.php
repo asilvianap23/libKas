@@ -50,33 +50,49 @@ class KasController extends Controller
         return view('kas.keluar.index', compact('kasKeluar'));
     }
 
-    // Menyimpan transaksi Kas Keluar
     public function storeKasKeluar(Request $request)
     {
-           // Mendapatkan total kas masuk yang sudah diverifikasi
-            $totalKasMasuk = Kas::where('type', 'masuk')
+        // Mendapatkan total kas masuk yang sudah diverifikasi
+        $totalKasMasuk = Kas::where('type', 'masuk')
             ->where('is_verified', 1)
             ->sum('amount');
-
+    
         // Mendapatkan total kas keluar yang sudah disimpan
         $totalKasKeluar = Kas::where('type', 'keluar')->sum('amount');
-
+    
         // Validasi apakah kas cukup
         if ($totalKasMasuk - $totalKasKeluar < $request->amount) {
-        return back()->withErrors(['amount' => 'Jumlah pengeluaran melebihi saldo kas yang tersedia.']);
+            return back()->withErrors(['amount' => 'Jumlah pengeluaran melebihi saldo kas yang tersedia.']);
         }
-
-        // Jika validasi lolos, lanjutkan menyimpan data pengeluaran
-        Kas::create([
-        'amount' => $request->amount,
-        'description' => $request->description,
-        'type' => 'keluar',
-        'user_id' => Auth::id(), // Menambahkan user_id
-        'is_verified' => 1, // Asumsi langsung diverifikasi
+    
+        // Menyimpan data kas keluar
+        $kas = Kas::create([
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'type' => 'keluar',
+            'user_id' => Auth::id(),
+            'is_verified' => 1,  // Kas keluar sudah diverifikasi
         ]);
-
+    
+        // Menyimpan file jika ada
+        if ($request->hasFile('files')) {
+            $filePaths = [];
+            foreach ($request->file('files') as $file) {
+                // Menyimpan file di folder kas_files
+                $filePath = $file->store('kas_files', 'public');
+                $filePaths[] = $filePath; // Menambahkan path file ke array
+            }
+    
+            // Menyimpan file paths ke kolom 'bukti' pada tabel kas
+            $kas->update([
+                'bukti' => json_encode($filePaths),
+            ]);
+        }
+    
+        // Redirect ke halaman kas keluar dengan pesan sukses
         return redirect()->route('kas.keluar.index')->with('success', 'Kas keluar berhasil disimpan.');
     }
+    
     
     public function showKasMasuk(Request $request)
     {
