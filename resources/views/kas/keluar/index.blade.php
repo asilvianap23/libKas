@@ -17,7 +17,7 @@
                 </svg>
                 <span class="font-medium">{{ session('success') }}</span>
             </div>
-        </div>
+        </div>  
     @endif
 
     <!-- Menampilkan Pesan Error -->
