@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KasController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 
@@ -15,6 +16,8 @@ Route::get('/', function () {
 
 // Route untuk Kas (Masuk dan Keluar)
 Route::middleware('auth')->group(function () {
+    Route::resource('user', UserController::class);
+
     // Menampilkan halaman Kas (Masuk dan Keluar)
     Route::get('/kas', [KasController::class, 'index'])->name('kas.index');
     

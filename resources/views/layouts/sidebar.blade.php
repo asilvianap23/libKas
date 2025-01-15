@@ -43,6 +43,20 @@
                 </a>
             </div>
         </div>
+        <div class="space-y-2">
+            <a href="javascript:void(0)" class="flex items-center px-6 py-3 text-lg font-semibold text-gray-800 hover:bg-blue-600 rounded-lg transition duration-200 transform hover:scale-105 group" onclick="toggleSubMenu('user-menu')">
+                <i class="fas fa-user-circle mr-4 text-lg"></i> User 
+                <i class="fas fa-chevron-down ml-auto transform transition" id="user-menu-icon"></i>
+            </a>
+            <div id="user-menu" class="ml-6 space-y-2 pl-6 hidden">
+                <a href="{{ route('user.index') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
+                    <i class="fas fa-users mr-4 text-md"></i> Daftar User
+                </a>
+                <a href="{{ route('user.create') }}" class="flex items-center px-6 py-3 text-lg font-medium text-gray-700 hover:bg-blue-500 rounded-lg transition duration-200 transform hover:scale-105">
+                    <i class="fas fa-user-plus mr-4 text-md"></i> Tambah User
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 

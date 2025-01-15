@@ -120,13 +120,13 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #ffffff;  /* Latar belakang putih */
+    background-color: #008080;  /* Latar belakang*/
     padding-top: 20px;
-    color: #2d3748;
+    color: #f6f8fa;
     transition: 0.3s;
     overflow-x: hidden;
     z-index: 100;
-    box-shadow: 0px 4px 15px rgba(0, 123, 255, 0.5); /* Bayangan biru */
+    box-shadow: 10px 5px 15px rgba(129, 208, 240, 0.87); /* Bayangan biru */
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
@@ -136,7 +136,7 @@
     padding: 10px 15px;
     text-decoration: none;
     font-size: 18px;
-    color: #2d3748;
+    color: #f6f7f8;
     display: block;
     transition: 0.3s;
     border-radius: 5px;
@@ -144,14 +144,14 @@
 
 .sidebar a:hover {
     background-color: #007bff;
-    color: #ffffff;
+    color: #d0f13b;
 }
 
 .sidebar .menu-header {
     font-size: 24px;
     margin-bottom: 20px;
     padding-left: 15px;
-    color: #718096;
+    color: #f7f8fa;
     font-weight: bold;
 }
 
@@ -223,6 +223,6 @@
     position: sticky;
     top: 0;
     z-index: 1000; /* Pastikan navbar berada di atas konten lainnya */
-    background-color: #ffffff; /* Sesuaikan dengan warna background navbar */
+    background-color: #FFF8E1; /* Sesuaikan dengan warna background navbar */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Memberikan bayangan untuk tampilan */
 }

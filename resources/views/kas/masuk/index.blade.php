@@ -59,6 +59,7 @@
                         <th class="px-6 py-3 border-b">Jumlah</th>
                         <th class="px-6 py-3 border-b">Deskripsi</th>
                         <th class="px-6 py-3 border-b">Kas Masuk Dari</th>
+                        <th class="px-6 py-3 border-b">Instansi</th>
                         <th class="px-6 py-3 border-b">Bukti Transfer</th>
                         <th class="px-6 py-3 border-b">Status</th>
                         <th class="px-6 py-3 border-b">Aksi</th>
@@ -71,6 +72,7 @@
                         <td class="px-6 py-4 border-b">{{ number_format($item->amount, 2) }}</td>
                         <td class="px-6 py-4 border-b">{{ $item->description }}</td>
                         <td class="px-6 py-4 border-b">{{ $item->user->name }}</td>
+                        <td class="px-6 py-4 border-b">{{ $item->user->instansi }}</td>
                         <td class="px-6 py-4 border-b">
                             @if($item->photo)
                                 <a href="{{ Storage::url($item->photo) }}" class="link-view" target="_blank">Lihat Bukti</a>
@@ -122,7 +124,7 @@
     
         <!-- Pagination -->
         <div class="mt-4">
-            {{ $kas->withQueryString()->links() }}
+            {{ $kas->appends(request()->query())->links() }}
         </div>
     </div>
 </div>

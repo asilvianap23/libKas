@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <label for="photo" class="block text-sm font-medium text-gray-700">Bukti Transfer</label>
+                <label for="photo" class="block text-sm font-medium text-gray-700">Bukti Transfer (Image)</label>
                 <input type="file" id="photo" name="photo" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-500">
             </div>
             <div class="mt-6 flex justify-center">

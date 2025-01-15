@@ -20,13 +20,13 @@ class DashboardController extends Controller
     
         // Mengambil transaksi hari ini (kas masuk yang terverifikasi)
         $transaksiHariIni = Kas::whereDate('created_at', today())
-            ->where('is_verified', true) 
+            ->where('is_verified', true)
             ->where('type', 'masuk') // Hanya kas masuk yang terverifikasi
             ->sum('amount');
     
         // Mengambil transaksi bulan ini (kas masuk yang terverifikasi)
         $transaksiBulanIni = Kas::whereMonth('created_at', now()->month)
-            ->where('is_verified', true) 
+            ->where('is_verified', true)
             ->where('type', 'masuk') // Hanya kas masuk yang terverifikasi
             ->sum('amount');
     
@@ -54,15 +54,18 @@ class DashboardController extends Controller
             ->where('type', 'keluar')
             ->sum('amount');
 
+        // Menghitung total kas bersih (kas masuk - kas keluar)
+        $totalKas = $totalKasMasuk - $totalKasKeluar;
+
         // Mengirim data ke view
         return view('dashboard', [
-            'totalKas' => $totalKasMasuk - $totalKasKeluar, // Total kas bersih (kas masuk - kas keluar)
-            'transaksiHariIni' => $transaksiHariIni,
-            'transaksiBulanIni' => $transaksiBulanIni,
+            'totalKas' => number_format($totalKas, 2), // Format uang
+            'transaksiHariIni' => number_format($transaksiHariIni, 2), 
+            'transaksiBulanIni' => number_format($transaksiBulanIni, 2),
             'kasMasuk' => $kasMasuk, // Mengirim data kas masuk ke view
             'kasKeluar' => $kasKeluar,
-            'kasKeluarHariIni' => $kasKeluarHariIni,  // Kas keluar hari ini
-            'kasKeluarBulanIni' => $kasKeluarBulanIni,  // Kas keluar bulan ini
+            'kasKeluarHariIni' => number_format($kasKeluarHariIni, 2),  // Kas keluar hari ini dengan format
+            'kasKeluarBulanIni' => number_format($kasKeluarBulanIni, 2),  // Kas keluar bulan ini dengan format
         ]);
     }
 }

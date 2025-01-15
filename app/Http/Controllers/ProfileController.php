@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -26,14 +26,24 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $data = $request->validated();  // Ambil semua data yang divalidasi
+        $user = $request->user();  // Ambil user yang login
+    
+        // Isi kolom yang akan diupdate
+        $user->fill($data);
+    
+        // Periksa apakah email diubah untuk set ulang waktu verified
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
-
-        $request->user()->save();
-
+    
+        // Tambahkan instansi ke data jika tersedia
+        if ($request->has('instansi')) {
+            $user->instansi = $request->instansi;
+        }
+    
+        $user->save();  // Simpan ke database
+    
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

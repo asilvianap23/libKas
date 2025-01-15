@@ -12,7 +12,9 @@ class KasController extends Controller
     public function index()
     {
         // Mendapatkan data kas masuk dan kas keluar dengan pagination
-        $kasMasuk = Kas::where('type', 'masuk')->paginate(10); // Menambahkan paginate
+        $kasMasuk = Kas::where('type', 'masuk')
+        ->where('user_id', auth()->id()) // Filter berdasarkan user ID
+        ->paginate(10); // Menambahkan paginate
         $kasKeluar = Kas::where('type', 'keluar')->paginate(10); // Menambahkan paginate
         $kas = Kas::paginate(10); // Data utama yang juga dipaginasi
     
@@ -96,20 +98,16 @@ class KasController extends Controller
     
     public function showKasMasuk(Request $request)
     {
-        // $kas = Kas::query()
-        // ->where('is_verified', 0)
-        // ->whereNull('rejected_at')// Menampilkan kas yang belum diverifikasi
-        // ->paginate($request->limit ?: 10);
-        // // Ambil nilai status dari query string
-    // // Ambil nilai status dari query string
-  // Ambil input 'type' atau default 'masuk'
+        // Ambil parameter dari query string
+        $limit = $request->input('limit', 10); // Default 10 jika 'limit' tidak ada
+        $search = $request->input('search');  // Pencarian berdasarkan deskripsi
+        $status = $request->input('status'); // Status filter
         $type = $request->input('type', 'masuk');  // Default ke 'masuk' jika 'type' tidak ada
-
+    
+        // Mulai query
         $query = Kas::query();
-
-        // Filter berdasarkan status jika status dipilih
-        $status = $request->input('status');
-
+    
+        // Filter berdasarkan status jika dipilih
         if ($status === 'verified') {
             $query->where('is_verified', 1); // Sudah Diverifikasi
         } elseif ($status === 'pending') {
@@ -117,15 +115,22 @@ class KasController extends Controller
         } elseif ($status === 'rejected') {
             $query->whereNotNull('rejected_at'); // Ditolak
         }
-
-        // Filter berdasarkan type, apakah 'masuk' atau 'keluar'
-        $query->where('type', $type); // Menyaring berdasarkan 'type'
-
-        // Ambil data dengan pagination
-        $kas = $query->latest()->paginate(10);
-
+    
+        // Filter berdasarkan tipe (masuk/keluar)
+        $query->where('type', $type);
+    
+        // Filter berdasarkan pencarian deskripsi
+        if (!empty($search)) {
+            $query->where('description', 'like', '%' . $search . '%');
+        }
+    
+        // Ambil data dengan pagination menggunakan limit
+        $kas = $query->latest()->paginate($limit);
+    
+        // Return ke view dengan data kas
         return view('kas.masuk.index', compact('kas'));
     }
+    
                 
     // Verifikasi Kas Masuk
     public function verifyKasMasuk($id)
